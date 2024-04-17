@@ -80,17 +80,14 @@ This is the place for you to write reflections:
 ##### Interface vs. Model Structure in Rust
 - Interface in Observer Pattern: Typically, the Observer pattern involves an interface that observers (subscribers) must implement. This design allows different types of observers to register with the publisher and receive updates without the publisher needing to know the specific types of observers.
 - Trait in Rust: In Rust, traits serve a similar purpose as interfaces in other languages. A trait defines a set of methods and behaviors that a type must implement, making it suitable for the Observer pattern.
-- Decision: Reflect on whether BambangShop requires multiple types of subscribers that might behave differently or if a single model struct is sufficient. If all subscribers will use the same set of behaviors, a model struct may be adequate. However, if future extensions might introduce different types of subscribers, using a trait would offer more flexibility.
 
 ##### Data Structure for Subscriber Management 
 - Using Vec vs. DashMap: Consider the operations you need to perform on the list of subscribers. Vec (a list) would typically allow you to iterate over subscribers and send notifications, but might not be efficient for operations like adding or removing subscribers if they need to be identified uniquely and quickly.
 - DashMap: This is a concurrent, thread-safe HashMap. It allows quick lookups, additions, and deletions using unique keys, making it suitable for managing a dynamic list of uniquely identified subscribers.
-- Evaluation: Assess the importance of performance for operations such as adding or removing subscribers, and the potential size of the subscriber list. If high concurrency and quick modifications are required, DashMap or a similar thread-safe data structure might be necessary.
 
 ##### Use of DashMap vs. Singleton Pattern 
 - DashMap for Concurrency: DashMap is used here for its thread-safety features, which are crucial when multiple threads might modify the list of subscribers concurrently.
 - Singleton Pattern: This pattern involves creating a single instance of a class that is accessible globally. While it provides a global point of access to the resource (like SUBSCRIBERS), the singleton itself does not ensure thread safety.
-- Decision: Consider whether the Singleton pattern would suffice for managing global access while maintaining thread safety, possibly using Rust's concurrency features like mutexes. However, if the simplicity and built-in thread safety of DashMap effectively meet the project's needs without additional complexity, it might be the better choice.
 
 #### Reflection Publisher-2
 ##### Separation of "Service" and "Repository" from a Model
@@ -99,14 +96,11 @@ This is the place for you to write reflections:
 - Benefits: This approach adheres to the Single Responsibility Principle and can lead to cleaner, more organized code that is easier to manage and test.
 
 ##### Implications of Using Only the Model
-- Increased Complexity: If business logic and data access are not separated from the model, each model becomes more complex and harder to maintain. It would need to handle not just data properties but also complex interactions and transformations.
-- Code Coupling and Maintenance Issues: Mixing data access with business logic can lead to tightly coupled code that is difficult to modify and extend. For instance, changing the data source or business rule might require changes to the model, affecting other parts of the application that use the same model.
-- Example: Consider a scenario where changes to the notification logic (like conditions under which notifications are sent) require modifications to the database schema or queries. If these aspects are entangled within a single model, each change could necessitate significant testing and adjustment across related functionalities.
+Consider a scenario where changes to the notification logic (like conditions under which notifications are sent) require modifications to the database schema or queries. If these aspects are entangled within a single model, each change could necessitate significant testing and adjustment across related functionalities.
 
 ##### Exploration of Postman
 - Tool for API Testing: Postman is a powerful tool for testing APIs. It allows you to send requests to the server and inspect the responses without writing any client code. This can speed up testing and debugging during development.
 - Features of Interest: Postman can automate tests for APIs, ensuring that each endpoint behaves as expected after changes. This is particularly useful for regression testing. You can set up different environments (e.g., development, production) in Postman, which makes it easier to test different configurations or stages of your application without changing your code. Allows teams to share collections of API requests, ensuring that everyone is testing with the same parameters and settings.
-- Benefits for Projects: Discuss how these features can help in your group project and future software engineering tasks, particularly in ensuring that your back-end services work correctly before integrating them with front-end applications.
 
 #### Reflection Publisher-3
 ##### Observer Pattern Variations Used in the Tutorial
